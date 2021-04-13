@@ -1,5 +1,6 @@
 const express= require('express');          //Inicializa el proyecto "express"
 const app =express();                       //Inicializa una "aplicacion" con el proyecto express antes creado
+const cors = require('cors')
 const server = require ('http').Server(app);//Inicializa un servidor con HTTP que atendera a la "app" antes creada
 const io = require('socket.io')(server)     // Inicializamos un socket que funcionara especificamente para el server
 const {v4: uuidv4 } = require('uuid');      //Inicializamos el uuid, y lo hacemos con la v4
@@ -7,6 +8,7 @@ const { ExpressPeerServer } = require('peer');      //SE inicializa un peerserve
 const peerServer = ExpressPeerServer(server, {      //lo hacemos funcionarcon el servidor que ya se posee 
   debug: true
 });
+app.use(cors());
 app.use('/peerjs',peerServer);              //Con /peerjs, le decimos que esa es la direccion  a la cual va a servir el peerServer, es decir. que el peerserver funcionara para la sala en la que nos encontremos
 
 app.set('view engine','ejs');               //Le decimos a la aplicacion que para su motor grafico se utilizara ejs

@@ -5,13 +5,13 @@ mivideo.muted=true;                             //Muteo el elemento para no escu
 const peers = {}                                //Para todos los pares 
 let salidaparausuario;
 var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-var peer = new Peer(undefined, {                 //Se crea una nueva conexion peer..el parametro "undefined" es para que el id que tome cada par sea automaticamente dado por peer 
+/*var peer = new Peer(undefined, {                 //Se crea una nueva conexion peer..el parametro "undefined" es para que el id que tome cada par sea automaticamente dado por peer 
     path: '/peerjs',                            //Se especifica el path en donde estara la conexion peer
     host: '/',                                   //Se especifica que el host es cualquiera, puede ser local, heroku etc.
     port: '443'
 
-});
-//var peer=new Peer();
+});*/
+var peer=new Peer();
 //Manejo de peers
 peer.on('open',id =>{                       //Cuando se ejecuta un cliente se abre una conexion peer
     socket.emit('join-room',ROOM_ID,id);    //Hace la llamada "emit" de nombre 'join-room', para acceder a la sala correspondiente , enviando el ID de la sala"ROOM-ID"el cual esta como constante en el room.ejs y enviando el id unico de este par
@@ -42,9 +42,13 @@ getUserMedia({                              //Nos permite capturar el video y au
        })
      })
     socket.on('user-connected',(userId)=>{                  //Una vez que el usuario obtenga el "emit", se ejecuta esto y sellama a la funcion "conectar nuevo usuario"
-        conectarNuevoUsuario(userId,stream);   
-             
+      console.log("conectando nuevo usuario....");
+      setTimeout(function ()
+          {
+          conectarNuevoUsuario(userId,stream);
+          },1000)       
     })
+
 }, function(err) {
     console.log('Fallo en conseguir el stream' ,err);
   });
@@ -70,6 +74,7 @@ const conectarNuevoUsuario =(userId,stream)=>{                  //Funcion para c
         })
         peers[userId] = call
 }
+
 
 
 function incluirVideoStream (video,stream){             //Funcion que toma un elemento video y un stream capturado
