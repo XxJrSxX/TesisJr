@@ -1,0 +1,104 @@
+body{
+    margin: 0;
+    padding: 0%;
+}
+#video-grid{
+    display: flex;
+    justify-content: center;
+
+}
+video{
+    height: 225px;
+    width: 250px;
+    object-fit: cover;
+}
+.Principal{
+    height: 100vh;
+    display: flex;
+}
+.Izquierda{
+    flex: 0.8;
+    display: flex;
+    flex-direction: column;
+}
+
+.ParteVideos{
+    flex-grow: 1;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Controles{
+    display: flex;
+    background-color: #2b2b2d;
+    color: #b0b9b9;
+    padding: 5px;
+    justify-content: space-between;
+    border-top: 2px solid #222225;
+}
+.SeccionDeControles{
+    display: flex;
+}
+.BotonesDeControl{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 4px;
+    min-width: 80px;
+    cursor: pointer;
+}
+.BotonesDeControl:hover{
+    background-color: #494949;
+    border-radius: 5px;
+}
+
+.BotonesDeControl i{
+    font-size: 22px;
+}
+.DejarReunion{
+    color: #d04e4e;
+}
+.fa-door-open{
+    color: #d04e4e;
+}
+
+
+.Derecha{
+    flex: 0.2;
+    display: flex;
+    flex-direction: column;
+    background-color: #4e4e4e;
+    border-left: 2px solid #222225;
+}
+.CabeceraDerecha{
+    color:white;
+    text-align: center;
+}
+.VentanaChat{
+    flex-grow: 1;
+    overflow-y: scroll;
+}
+
+.ContenedorDeMensajes{
+    padding: 2px 2px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ContenedorDeMensajes input{
+    flex-grow: 1;
+    background-color: transparent;
+    border: #d04e4e;
+    color: antiquewhite;
+
+}
+.Mensajes{
+    color: #b0b9b9;
+    list-style: none;
+}
+
+.silencio, .detenidoCamara{
+    color: #d04e4e;
+}

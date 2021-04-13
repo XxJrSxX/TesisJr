@@ -1,0 +1,19 @@
+{
+  "name": "tesisjr",
+  "version": "1.0.0",
+  "description": "Proyecto de Titulacion por Jordy Ramon",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Jordy Ramon",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "peer": "^0.6.1",
+    "socket.io": "^4.0.1",
+    "uuid": "^8.3.2"
+  }
+}
