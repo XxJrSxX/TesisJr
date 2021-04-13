@@ -11,7 +11,30 @@ var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || nav
     port: '443'
 
 });*/
-var peer=new Peer();
+const servidores ={
+  config: {'iceServers': [
+    { url: 'stun:stun.l.google.com:19302' },
+    { url: 'stun:global.stun.twilio.com:3478'},
+    {url: 'stun:stun1.l.google.com:19302'},
+    {url: 'stun:stun2.l.google.com:19302'},
+    {url: 'stun:stun3.l.google.com:19302'},
+    {url: 'stun:stun4.l.google.com:19302'},
+    {url: 'stun:stun.ekiga.net:3478'},
+    {url: 'stun:stun.cheapvoip.com:3478'},
+    {url: 'stun:stun.gmx.de:3478'},
+    {url: 'stun:stun.gmx.net:3478'},
+    {url: 'stun:stun.ipfire.org:3478'},
+    {url: 'stun:stun.linphone.org:3478'},
+    {url: 'stun:stun.services.mozilla.com:3478'},
+    {url: 'stun:stun.stunprotocol.org:3478'},
+    {url: 'stun:stunserver.org:3478'},
+    { url: 'turn:numb.viagenie.ca:3478', credential: 'muazkh', username:'web...@live.com' },
+    { url: 'turn:numb.viagenie.ca', credential: 'muazkh', username:'web...@live.com' },
+    { url: 'turn:192.158.29.39:3478?transport=udp', credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=', username:'28224511:1379330808' },
+    { url: 'turn:192.158.29.39:3478?transport=tcp', credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=', username:'28224511:1379330808' }
+  ]}
+                };
+var peer=new Peer(servidores);
 //Manejo de peers
 peer.on('open',id =>{                       //Cuando se ejecuta un cliente se abre una conexion peer
     socket.emit('join-room',ROOM_ID,id);    //Hace la llamada "emit" de nombre 'join-room', para acceder a la sala correspondiente , enviando el ID de la sala"ROOM-ID"el cual esta como constante en el room.ejs y enviando el id unico de este par
