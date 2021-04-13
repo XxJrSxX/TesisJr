@@ -46,7 +46,7 @@ getUserMedia({                              //Nos permite capturar el video y au
       setTimeout(function ()
           {
           conectarNuevoUsuario(userId,stream);
-          },1000)       
+          },5000)       
     })
 
 }, function(err) {
