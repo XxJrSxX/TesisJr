@@ -36,6 +36,7 @@ getUserMedia({                              //Nos permite capturar el video y au
         call.on('stream', userVideoStream => {          
             console.log('Ha recibido el stream de:');   
             console.log(userVideoStream.id);
+            console.log(userVideoStream);
          incluirVideoStream(video, userVideoStream)     //Mostramos el stream del otro usuario en el cliente que se conecto 
               
     
