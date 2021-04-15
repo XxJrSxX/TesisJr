@@ -90,14 +90,14 @@ getUserMedia({                              //Nos permite capturar el video y au
 const conectarNuevoUsuario =(userId,stream)=>{                  //Funcion para conectar unnuevo usuario 
         console.log("El usuario :"+userId+"ha ingresado a la sala");
         const call=peer.call(userId,stream)                     //Llamo al usuario que recien ingreso, y le envio el MI stream(Propio) 
-        const video =document.createElement('video')            //Creo un nuevo elemento video para alojar el stream
+        let video1 =document.createElement('video')            //Creo un nuevo elemento video para alojar el stream
         call.on('stream', userVideoStream =>{                   //Se ejecutara y se agregara un video con el stream de la otra persona
             console.log('Recibiendo el stream de: ');
             console.log(userVideoStream.id);
-            incluirVideoStream(video,userVideoStream)           //Añado el stream de la otra persona a mi stream propio
+            incluirVideoStream(video1,userVideoStream)           //Añado el stream de la otra persona a mi stream propio
         })
         call.on('close',() =>{
-            video.remove();
+            video1.remove();
         })
         peers[userId] = call
 }
@@ -228,6 +228,7 @@ const SeteoBotonDesmuteo = () => {
   //FUNCIONALIDAD BOTON SALIR
   function Salir(){
     socket.disconnect();
+    video1.remove();
     const ventana=window.self;
     ventana.opener=window.self;
     ventana.close();
