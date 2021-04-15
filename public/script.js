@@ -4,7 +4,7 @@ const mivideo=document.createElement('video');  //Creo un elemento 'video'
 mivideo.muted=true;                             //Muteo el elemento para no escuchar mi propia voz
 const peers = {}                                //Para todos los pares 
 let salidaparausuario;
-var getUserMedia = navigator.mediaDevices.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 /*var peer = new Peer(undefined, {                 //Se crea una nueva conexion peer..el parametro "undefined" es para que el id que tome cada par sea automaticamente dado por peer 
     path: '/peerjs',                            //Se especifica el path en donde estara la conexion peer
     host: '/',                                   //Se especifica que el host es cualquiera, puede ser local, heroku etc.
@@ -15,7 +15,7 @@ const servidores ={
   config: {'iceServers': [
   //  { url: 'stun:stun.l.google.com:19302' },
   //  { url: 'stun:stun.services.mozilla.com' },
-  //  { url: 'stun:stun.turnservejr.com:5349'},
+    { url: 'stun:stun.turnservejr.com:5349'},
     { url: 'turn:turn.turnservejr.com:5349', credential: '14as78df95g26sad7', username:'jordyadrianstudentEPN' }
     //{ url: 'turn:192.158.29.39:3478?transport=udp', credential: '12345', username:'adrian' }
   /*  {url: 'stun:stun1.l.google.com:19302'},
@@ -73,7 +73,7 @@ getUserMedia({                              //Nos permite capturar el video y au
       setTimeout(function ()
           {
           conectarNuevoUsuario(userId,stream);
-          },3000)       
+          },5000)       
     })
 
 }, function(err) {
@@ -227,6 +227,7 @@ const SeteoBotonDesmuteo = () => {
 
   //FUNCIONALIDAD BOTON SALIR
   function Salir(){
+    socket.disconnect();
     const ventana=window.self;
     ventana.opener=window.self;
     ventana.close();
