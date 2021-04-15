@@ -15,7 +15,7 @@ const servidores ={
   config: {'iceServers': [
   //  { url: 'stun:stun.l.google.com:19302' },
   //  { url: 'stun:stun.services.mozilla.com' },
-    { url: 'stun:stun.turnservejr.com:5349'},
+  //  { url: 'stun:stun.turnservejr.com:5349'},
     { url: 'turn:turn.turnservejr.com:5349', credential: '14as78df95g26sad7', username:'jordyadrianstudentEPN' }
     //{ url: 'turn:192.158.29.39:3478?transport=udp', credential: '12345', username:'adrian' }
   /*  {url: 'stun:stun1.l.google.com:19302'},
