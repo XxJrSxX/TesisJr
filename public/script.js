@@ -139,7 +139,7 @@ $('#MensajeDeChat').keydown(function(e){
         console.log("123")
         var usuariochat = document.getElementById('NombreUsuario').value.trim();
         if (usuariochat === '') {
-            alert('Primero introduzca su usuario ');
+            alert('ALTO!!','Coloque su nombre par acceder al chat','information');
             return false;
         }
         if ($('#MensajeDeChat').val() === '')
@@ -233,7 +233,7 @@ const SeteoBotonDesmuteo = () => {
     var jl1=$('#MensajeDeChat').val();
     console.log(jl);
     if ( jl === '') {
-      alert('Primero introduzca su usuario ');
+      swal('ALTO!!','Porfavor Introduzca su nombre de usuario.. ','error');
       return false;
   }
   if (jl1 ===''){
@@ -242,14 +242,16 @@ const SeteoBotonDesmuteo = () => {
     socket.emit('salida',salidaparausuario);
     socket.disconnect();
     //video1.remove();
+    
     const ventana=window.self;
     ventana.opener=window.self;
     ventana.close();
-  
+    swal('Sesion Finalizada','PorFavor cierre la pestaña de su navegador ','success');
+
   }
 
   //FUNCIONALIDAD BOTON INFORMACION
 
   function Informacion(){
-    alert('Pagina desarrollada por JR');
+    swal('Pagina desarrollada por', 'Jordy Adrian Ramon Bedoya','success');
   }
