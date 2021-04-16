@@ -89,7 +89,7 @@ getUserMedia({                              //Nos permite capturar el video y au
 
 const conectarNuevoUsuario =(userId,stream)=>{                  //Funcion para conectar unnuevo usuario 
         console.log("El usuario :"+userId+"ha ingresado a la sala");
-        const call=peer.call(userId,stream)                     //Llamo al usuario que recien ingreso, y le envio el MI stream(Propio) 
+        let call=peer.call(userId,stream)                     //Llamo al usuario que recien ingreso, y le envio el MI stream(Propio) 
         let video1 =document.createElement('video')            //Creo un nuevo elemento video para alojar el stream
         call.on('stream', userVideoStream =>{                   //Se ejecutara y se agregara un video con el stream de la otra persona
             console.log('Recibiendo el stream de: ');
@@ -125,7 +125,9 @@ $('html').keydown((e)=>{
     }
 
 })*/
-
+socket.on('salidausuario',nmbr=>{
+  $("ul").append(`<li class="Mensajes"><b>El usuario: ${nmbr}</b><br/>Ha salido de la conferencia</li>`);
+})
 socket.on('MensajeCreado',msg =>{
     console.log('Mensaje desde el servidor:', msg);
     $("ul").append(`<li class="Mensajes"><b>${msg.usuario}</b><br/>${msg.mensaje}</li>`);
@@ -227,18 +229,24 @@ const SeteoBotonDesmuteo = () => {
 
   //FUNCIONALIDAD BOTON SALIR
   function Salir(){
+    var jl=$('#NombreUsuario').val();
+    var jl1=$('#MensajeDeChat').val();
+    console.log(jl);
+    if ( jl === '') {
+      alert('Primero introduzca su usuario ');
+      return false;
+  }
+  if (jl1 ===''){
+    salidaparausuario=jl;
+  }
+    socket.emit('salida',salidaparausuario);
     socket.disconnect();
-    video1.remove();
+    //video1.remove();
     const ventana=window.self;
     ventana.opener=window.self;
     ventana.close();
-    socket.emit('salida',salidaparausuario);
-    
+  
   }
-  socket.on('salidausuario',sld=>{
-    $("ul").append(`<li class="Mensajes"><b></b><br/>El usuario ${sld} ha salido de la conferencia</li>`);
-  })
-
 
   //FUNCIONALIDAD BOTON INFORMACION
 

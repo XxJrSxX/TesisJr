@@ -37,8 +37,8 @@ io.on('connection',socket =>{                       //Cada que alguien se conect
     socket.on('disconnect', () => {
     socket.broadcast.to(roomId).emit('user-disconnected', userId);
                 })
-    socket.on('salida', slr =>{
-    socket.broadcast.to(roomId).emit('salidausuario',slr);
+    socket.on('salida', (nombre) =>{
+    socket.broadcast.to(roomId).emit('salidausuario',nombre);
     })
 
     })
