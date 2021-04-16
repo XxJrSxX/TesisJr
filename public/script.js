@@ -73,7 +73,7 @@ getUserMedia({                              //Nos permite capturar el video y au
       setTimeout(function ()
           {
           conectarNuevoUsuario(userId,stream);
-          },5000)       
+          },500)       
     })
 
 }, function(err) {
@@ -127,6 +127,7 @@ $('html').keydown((e)=>{
 })*/
 socket.on('salidausuario',nmbr=>{
   $("ul").append(`<li class="Mensajes"><b>El usuario: ${nmbr}</b><br/>Ha salido de la conferencia</li>`);
+  location.reload();
 })
 socket.on('MensajeCreado',msg =>{
     console.log('Mensaje desde el servidor:', msg);
@@ -240,13 +241,16 @@ const SeteoBotonDesmuteo = () => {
     salidaparausuario=jl;
   }
     socket.emit('salida',salidaparausuario);
+    //socket.close();
     socket.disconnect();
     //video1.remove();
-    
     const ventana=window.self;
     ventana.opener=window.self;
     ventana.close();
+    //socket.emit('hospedadorFinalizado',mensajedeterminado);
     swal('Sesion Finalizada','PorFavor cierre la pestaña de su navegador ','success');
+    
+   
 
   }
 
