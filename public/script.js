@@ -1,8 +1,13 @@
 const socket = io('/');
+let itera=0;
 const videoGrid=document.getElementById('video-grid')
 const mivideo=document.createElement('video');  //Creo un elemento 'video'
+mivideo.setAttribute("id",itera);
+console.log('inicio',itera);
 mivideo.muted=true;                             //Muteo el elemento para no escuchar mi propia voz
 const peers = {}                                //Para todos los pares 
+let identi;
+let roomIdx;
 let salidaparausuario;
 var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 /*var peer = new Peer(undefined, {                 //Se crea una nueva conexion peer..el parametro "undefined" es para que el id que tome cada par sea automaticamente dado por peer 
@@ -42,6 +47,8 @@ var peer=new Peer(servidores);
 peer.on('open',id =>{                       //Cuando se ejecuta un cliente se abre una conexion peer
     socket.emit('join-room',ROOM_ID,id);    //Hace la llamada "emit" de nombre 'join-room', para acceder a la sala correspondiente , enviando el ID de la sala"ROOM-ID"el cual esta como constante en el room.ejs y enviando el id unico de este par
     console.log("Usted se encuentra dentro de la sala, su id es : "+id);
+    identi=id;
+    roomIdx=ROOM_ID;
 })
 
 let myVideoStream                           //Varible global
@@ -59,11 +66,13 @@ getUserMedia({                              //Nos permite capturar el video y au
         call.answer(stream)                             //Respondemos con el stream propio
         console.log('Envie mi stream');
         const video = document.createElement('video')
+        itera++;
+        console.log('mitad',itera);
+        video.setAttribute("id", itera);
         call.on('stream', userVideoStream => {          
             console.log('Ha recibido el stream de:');   
             console.log(userVideoStream.id);
-            console.log(userVideoStream);
-         incluirVideoStream(video, userVideoStream)     //Mostramos el stream del otro usuario en el cliente que se conecto 
+        incluirVideoStream(video, userVideoStream)     //Mostramos el stream del otro usuario en el cliente que se conecto 
               
     
        })
@@ -73,17 +82,18 @@ getUserMedia({                              //Nos permite capturar el video y au
       setTimeout(function ()
           {
           conectarNuevoUsuario(userId,stream);
-          },500)       
+          },500)
+                 
     })
 
 }, function(err) {
     console.log('Fallo en conseguir el stream' ,err);
   });
-
+  
   socket.on('user-disconnected', userId => {
     if (peers[userId]) peers[userId].close();
     console.log("El usuario "+userId+" ha salido de la conferencia");
-
+    lecturavideo();
   })
 
 
@@ -91,6 +101,9 @@ const conectarNuevoUsuario =(userId,stream)=>{                  //Funcion para c
         console.log("El usuario :"+userId+"ha ingresado a la sala");
         let call=peer.call(userId,stream)                     //Llamo al usuario que recien ingreso, y le envio el MI stream(Propio) 
         let video1 =document.createElement('video')            //Creo un nuevo elemento video para alojar el stream
+        itera++;
+        video1.setAttribute("id",itera);
+        console.log('final',itera);
         call.on('stream', userVideoStream =>{                   //Se ejecutara y se agregara un video con el stream de la otra persona
             console.log('Recibiendo el stream de: ');
             console.log(userVideoStream.id);
@@ -109,7 +122,7 @@ function incluirVideoStream (video,stream){             //Funcion que toma un el
     video.addEventListener ('loadedmetadata',()=>{    //Evento que permite cargar todos los datos del stream, y una
         video.play();                               //vez que este capturado, se da el play
     })
-    videoGrid.append(video);                        //Agrego el video a la cuadricula que creamos anteriormente
+    videoGrid.appendChild(video);                      //Agrego el video a la cuadricula que creamos anteriormente
     
 }
 
@@ -126,8 +139,8 @@ $('html').keydown((e)=>{
 
 })*/
 socket.on('salidausuario',nmbr=>{
+  //location.reload();
   $("ul").append(`<li class="Mensajes"><b>El usuario: ${nmbr}</b><br/>Ha salido de la conferencia</li>`);
-  location.reload();
 })
 socket.on('MensajeCreado',msg =>{
     console.log('Mensaje desde el servidor:', msg);
@@ -240,14 +253,14 @@ const SeteoBotonDesmuteo = () => {
   if (jl1 ===''){
     salidaparausuario=jl;
   }
-    socket.emit('salida',salidaparausuario);
-    //socket.close();
-    socket.disconnect();
-    //video1.remove();
+    socket.emit('salida',salidaparausuario,identi,roomIdx);
+    setTimeout(function ()
+    {
+      socket.disconnect();
+    },2000)     
     const ventana=window.self;
     ventana.opener=window.self;
     ventana.close();
-    //socket.emit('hospedadorFinalizado',mensajedeterminado);
     swal('Sesion Finalizada','PorFavor cierre la pestaña de su navegador ','success');
     
    
@@ -259,3 +272,28 @@ const SeteoBotonDesmuteo = () => {
   function Informacion(){
     swal('Pagina desarrollada por', 'Jordy Adrian Ramon Bedoya','success');
   }
+ 
+/*function Lectura() {
+    setInterval( lecturavideo, 5000);
+}*/
+function lecturavideo(){
+  var numeroVideo=$('video').length;
+  var ayudaVideo;
+  //console.log('num exacto',numeroVideo)
+ // var element = document.getElementById('video');
+  for (ayudaVideo=1;ayudaVideo<numeroVideo;ayudaVideo++){
+    if (myVideoStream.getVideoTracks()[ayudaVideo]==null){
+      //helpe='video[id=];
+      $('video[id='+ayudaVideo+']').remove();
+      break;
+      //console.log('holasd')
+      //$('#video-grid').removeClass('',ayudaVideo);
+      //$('.video-grid').removeAttr('id=',ayudaVideo);
+      //document.getElementById("id=",ayudaVideo).remove();
+     // $('video').remove(ayudaVideo);
+      //intento.remove('id'+ ayudaVideo)
+      //document.querySelector('.video').remove(ayudaVideo);
+    }
+  }
+  
+}
