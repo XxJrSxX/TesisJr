@@ -93,7 +93,8 @@ getUserMedia({                              //Nos permite capturar el video y au
   socket.on('user-disconnected', userId => {
     if (peers[userId]) peers[userId].close();
     console.log("El usuario "+userId+" ha salido de la conferencia");
-    lecturavideo();
+    
+    
   })
 
 
@@ -139,8 +140,12 @@ $('html').keydown((e)=>{
 
 })*/
 socket.on('salidausuario',nmbr=>{
-  //location.reload();
   $("ul").append(`<li class="Mensajes"><b>El usuario: ${nmbr}</b><br/>Ha salido de la conferencia</li>`);
+  setTimeout(function ()
+    {
+     location.reload();
+    },5000)     
+  
 })
 socket.on('MensajeCreado',msg =>{
     console.log('Mensaje desde el servidor:', msg);
@@ -273,26 +278,21 @@ const SeteoBotonDesmuteo = () => {
     swal('Pagina desarrollada por', 'Jordy Adrian Ramon Bedoya','success');
   }
  
-/*function Lectura() {
-    setInterval( lecturavideo, 5000);
-}*/
+function Lectura() {
+    setInterval( lecturavideo, 3000);
+}
 function lecturavideo(){
   var numeroVideo=$('video').length;
   var ayudaVideo;
-  //console.log('num exacto',numeroVideo)
+  console.log('num exacto',numeroVideo)
+  //const activo=myVideoStream.getVideoTracks()[0].enabled;
  // var element = document.getElementById('video');
   for (ayudaVideo=1;ayudaVideo<numeroVideo;ayudaVideo++){
     if (myVideoStream.getVideoTracks()[ayudaVideo]==null){
       //helpe='video[id=];
       $('video[id='+ayudaVideo+']').remove();
+      console.log('Eliminando video numero ',ayudaVideo) ;
       break;
-      //console.log('holasd')
-      //$('#video-grid').removeClass('',ayudaVideo);
-      //$('.video-grid').removeAttr('id=',ayudaVideo);
-      //document.getElementById("id=",ayudaVideo).remove();
-     // $('video').remove(ayudaVideo);
-      //intento.remove('id'+ ayudaVideo)
-      //document.querySelector('.video').remove(ayudaVideo);
     }
   }
   
