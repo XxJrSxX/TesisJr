@@ -9,7 +9,7 @@ const peers = {}                                //Para todos los pares
 let identi;
 let roomIdx;
 let salidaparausuario;
-var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+//var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 /*var peer = new Peer(undefined, {                 //Se crea una nueva conexion peer..el parametro "undefined" es para que el id que tome cada par sea automaticamente dado por peer 
     path: '/peerjs',                            //Se especifica el path en donde estara la conexion peer
     host: '/',                                   //Se especifica que el host es cualquiera, puede ser local, heroku etc.
@@ -52,10 +52,10 @@ peer.on('open',id =>{                       //Cuando se ejecuta un cliente se ab
 })
 
 let myVideoStream                           //Varible global
-getUserMedia({                              //Nos permite capturar el video y audio, es una promesa, por eso el 
+navigator.mediaDevices.getUserMedia({       //Nos permite capturar el video y audio, es una promesa, por eso el 
     video: true,                            //then.., solo si tiene audio y video hace lo que dice el ...then
     audio: true
-},function(stream){                          //si se cumple lo anterior, se crea una funcion stream con el video y audio
+}).then(stream =>{                          //si se cumple lo anterior, se crea una funcion stream con el video y audio
 
     myVideoStream=stream;                    //Se guarda dentro de la variable el stream antes capturado
     incluirVideoStream(mivideo,stream);   //Llamo la funcion para añadir mi video 
@@ -82,7 +82,7 @@ getUserMedia({                              //Nos permite capturar el video y au
       setTimeout(function ()
           {
           conectarNuevoUsuario(userId,stream);
-          },500)
+          },1000)
                  
     })
 
@@ -96,7 +96,7 @@ getUserMedia({                              //Nos permite capturar el video y au
     setTimeout(function ()
     {
      location.reload();
-    },3000)     
+    },2000)     
     
   })
 
