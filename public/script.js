@@ -93,7 +93,10 @@ getUserMedia({                              //Nos permite capturar el video y au
   socket.on('user-disconnected', userId => {
     if (peers[userId]) peers[userId].close();
     console.log("El usuario "+userId+" ha salido de la conferencia");
-    
+    setTimeout(function ()
+    {
+     location.reload();
+    },3000)     
     
   })
 
