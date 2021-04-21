@@ -96,6 +96,7 @@ navigator.mediaDevices.getUserMedia({       //Nos permite capturar el video y au
     setTimeout(function ()
     {
      location.reload();
+     break;
     },2000)     
     
   })
