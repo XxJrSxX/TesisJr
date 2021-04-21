@@ -162,7 +162,7 @@ $('#MensajeDeChat').keydown(function(e){
         }
         if ($('#MensajeDeChat').val() === '')
           return false;
-        var datos= $('#MensajeDeChat').val();f
+        var datos= $('#MensajeDeChat').val();
         var datosglobales={
             'usuario': usuariochat,
             'mensaje': datos
