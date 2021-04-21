@@ -9,7 +9,7 @@ const peers = {}                                //Para todos los pares
 let identi;
 let roomIdx;
 let salidaparausuario;
-//var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 /*var peer = new Peer(undefined, {                 //Se crea una nueva conexion peer..el parametro "undefined" es para que el id que tome cada par sea automaticamente dado por peer 
     path: '/peerjs',                            //Se especifica el path en donde estara la conexion peer
     host: '/',                                   //Se especifica que el host es cualquiera, puede ser local, heroku etc.
