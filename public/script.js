@@ -155,7 +155,6 @@ socket.on('MensajeCreado',msg =>{
 
 $('#MensajeDeChat').keydown(function(e){
     if(e.keyCode === 13){
-        console.log("123")
         var usuariochat = document.getElementById('NombreUsuario').value.trim();
         if (usuariochat === '') {
             alert('ALTO!!','Coloque su nombre par acceder al chat','information');
@@ -163,8 +162,7 @@ $('#MensajeDeChat').keydown(function(e){
         }
         if ($('#MensajeDeChat').val() === '')
           return false;
-        var datos= $('#MensajeDeChat').val();
-        console.log(datos);
+        var datos= $('#MensajeDeChat').val();f
         var datosglobales={
             'usuario': usuariochat,
             'mensaje': datos
@@ -268,8 +266,6 @@ const SeteoBotonDesmuteo = () => {
     ventana.close();
     swal('Sesion Finalizada','PorFavor cierre la pestaña de su navegador ','success');
     
-   
-
   }
 
   //FUNCIONALIDAD BOTON INFORMACION
