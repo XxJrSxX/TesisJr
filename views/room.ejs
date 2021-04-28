@@ -15,6 +15,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.3/clipboard.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
     <script>
         const ROOM_ID="<%= roomId %>"                             //Toma el roomId, desde el servidor hacia este html
         console.log("Usted a entrado a la sala:"+"<%= roomId %>") //Toma el roomId, desde el servidor hacia este html
@@ -27,7 +30,7 @@
         <div class="Izquierda">
             <div class="ParteVideos">
                 <div id="video-grid">
-
+                <input type="text" value="..." id="enlace" readonly>
                 </div>
             </div>
             <div class="Controles">
@@ -43,13 +46,14 @@
                 </div>
 
                 <div class="SeccionDeControles">
-                    <div class="BotonesDeControl">
-                        <i class="fas fa-user-shield"></i>
-                        <span>Seguridad</span>
-                    </div>
-                    <div class="BotonesDeControl">
+                    
+                    <div onclick="InvitarAmigos()" class="BotonesDeControl">
                         <i class="fas fa-users-cog"></i>
-                        <span>Participantes</span>
+                        <span>Invitar Amigos</span>
+                    </div>
+                    <div onclick="CambiosChat(this)" class="BotonesDeControl">
+                        <i class="fas fa-sms"></i>
+                        <span>Chat</span>
                     </div>
                     <div onclick="Informacion()" class="BotonesDeControl">
                         <i class="fas fa-info-circle"></i>
@@ -70,14 +74,17 @@
 
         <div class="Derecha">
             <div class="CabeceraDerecha">
-                <h5> Ventana de chat</h5>
+                <h6><span class="live"></span> Ventana de chat</h6>
             </div>
             <div class="VentanaChat">
-                <ul class="Mensajes">   </ul>
+                <ul class="Mensajes"></ul>
             </div>
             <div class="ContenedorDeMensajes">
                 <input type="text" id="NombreUsuario" placeholder="Nombre" />
                 <input type="text" id ="MensajeDeChat" placeholder="Presione enter para enviar">
+                <button class="BotonEnvioSMS" id="BotonEnvioSMS">
+                    <i class="far fa-paper-plane"></i>
+                </button>
             </div>
         </div>
     </div>

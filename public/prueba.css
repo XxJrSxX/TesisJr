@@ -1,0 +1,209 @@
+@import url("https://font.googleapis.com/css2?family=Roboto&display=swap");
+*{
+    margin: 0;
+    padding: 0%;
+    box-sizing: border-box;
+} 
+html,
+body{
+    height: 100%;
+    font-family: "Roboto",sans-serif;
+}
+#video-grid{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    flex-wrap: wrap;
+    overflow-y: auto;
+
+}
+video{
+    display: block;
+    flex: 1;
+    object-fit: cover;
+    border: 5px solid #000;
+    max-width: 600px;
+    min-width: 400px;
+    
+}
+.Principal{
+    height: 100%;
+    display: flex;
+}
+.Izquierda{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.Derecha{
+    flex: 0.2;
+    display: flex;
+    flex-direction: column;
+    background-color: #4e4e4e;
+    border-left: 2px solid #222225;
+    display: none;
+}
+.MostrarChat .Derecha{
+    display: flex;
+}
+.MostrarChat .Izquierda{
+    flex: 0.8;
+}
+
+.ParteVideos{
+    flex-grow: 1;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Controles{
+    display: flex;
+    background-color: #2b2b2d;
+    color: #b0b9b9;
+    padding: 5px;
+    justify-content: space-between;
+    border-top: 2px solid #222225;
+}
+.SeccionDeControles{
+    display: flex;
+}
+.BotonesDeControl{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 4px;
+    min-width: 80px;
+    cursor: pointer;
+}
+.BotonesDeControl:hover{
+    background-color: #494949;
+    border-radius: 5px;
+}
+
+.BotonesDeControl i{
+    font-size: 22px;
+}
+.DejarReunion{
+    color: #d04e4e;
+}
+.fa-door-open{
+    color: #d04e4e;
+}
+
+.CabeceraDerecha{
+    color:white;
+    text-align: center;
+}
+.VentanaChat{
+    flex-grow: 1;
+    overflow-y: scroll;
+}
+
+.ContenedorDeMensajes{
+    padding: 2px 2px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ContenedorDeMensajes input,button{
+    flex-grow: 1;
+    background-color: transparent;
+    border:none;
+    color: antiquewhite;
+    user-select: none;
+    outline: none;
+    height: 50px;
+    border: 1px solid #3d3d42;
+    padding-left: 20px;
+}
+#todoslosmensajes li{
+color: #ffffff;
+list-style: none;
+padding: 5px 0;
+text-align: right;
+}
+#todoslosmensajes li b{
+    color: #ffffff;
+    list-style: none;
+    padding: 5px 0;
+    text-align: right;
+}
+#todoslosmensajes li.otherUser{
+    text-align: left;
+    }
+
+.Mensajes{
+    color: #b0b9b9;
+    list-style: none;
+}
+
+.silencio, .detenidoCamara{
+    color: #d04e4e;
+}
+@keyframes blink {
+  0%  {
+        background-color: #ff0000;
+    }
+  25%  {
+    background-color: #ffffff;
+  }
+  50%  {
+    background-color: #ff0000;
+  }
+  75%  {
+    background-color: #ffffff;
+  }
+  100% {
+    background-color: #ff0000;
+  }
+}
+
+.SendMsn{
+width: 50px;
+font-size: 22px;
+background-color: transparent;
+border: none;
+box-shadow: none;
+cursor: pointer;
+color: #fff;
+
+}
+@media(max-width:640px){
+.Controles{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+.ControlesButton span{
+    display: none;
+}
+
+#leavemeating{
+    display: none;
+}
+.MostrarChat .Derecha{
+    display: flex;
+    position: fixed;
+    width: 100%;
+    height: calc(100% -65px);
+    opacity: 0.8;
+}
+.MostrarChat .Izquierda{
+    flex: 1;
+}
+video{
+    max-width: 100%;
+    width: 50% !important;
+    max-height: 190px;
+}
+#video-grid{
+    justify-content: flex-start;
+    align-items: initial;
+}
+}

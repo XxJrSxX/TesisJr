@@ -1,5 +1,6 @@
 const socket = io('/');                         //Creacion de la constante socket que actuara consu libreria desde la raiz
 let itera=0;                                    //Varible de ayuda para numerar los videos de cada usuario
+let enlaceAmigos = window.location;
 const videoGrid=document.getElementById('video-grid') //Creo un elemento 'video-grid'
 const mivideo=document.createElement('video');        //Creo un elemento 'video'
 mivideo.setAttribute("id",itera);                     //Seteo un "id" y su valor a mi video para conocer que valor tiene
@@ -272,7 +273,30 @@ const SeteoBotonDesmuteo = () => {
     swal('Pagina desarrollada por', 'Jordy Adrian Ramon Bedoya','success');
   }
  
+  //FUNCIONALIDAD BOTON CHAT
+  function CambiosChat(){
+   
+  }
 
+
+//FUNCIONALIDAD BOTON PARA INVITAR AMIGOS
+function InvitarAmigos(){
+document.getElementById("enlace").value=window.location.href
+var enlace=document.getElementById("enlace")
+  enlace.select();
+  enlace.setSelectionRange(0,99999);
+  document.execCommand('copy');
+swal({
+  title: "Invita a mas amigos!!",
+  text: "LINK:  "+enlaceAmigos,
+  buttons:["Cancelar","OK"]
+  
+    }).then(function(result){
+        if(result==true){
+        swal('LISTO!!','Envia el link a tus amigos para que puedan acceder a la sala!!','success')
+      }
+    });
+    
 
   //EXTRAS
 function Lectura() {
@@ -293,4 +317,5 @@ function lecturavideo(){
     }
   }
   
+}  
 }

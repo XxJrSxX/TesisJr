@@ -44,5 +44,4 @@ io.on('connection',socket =>{                       //Cada que alguien se conect
 
     })
 })
-
 server.listen(process.env.PORT || 3030);  //Escucha el puerto de heroku o el 3030
