@@ -1,13 +1,12 @@
-const socket = io('/');
-let itera=0;
-const videoGrid=document.getElementById('video-grid')
-const mivideo=document.createElement('video');  //Creo un elemento 'video'
-mivideo.setAttribute("id",itera);
-console.log('inicio',itera);
+const socket = io('/');                         //Creacion de la constante socket que actuara consu libreria desde la raiz
+let itera=0;                                    //Varible de ayuda para numerar los videos de cada usuario
+const videoGrid=document.getElementById('video-grid') //Creo un elemento 'video-grid'
+const mivideo=document.createElement('video');        //Creo un elemento 'video'
+mivideo.setAttribute("id",itera);                     //Seteo un "id" y su valor a mi video para conocer que valor tiene
 mivideo.muted=true;                             //Muteo el elemento para no escuchar mi propia voz
 const peers = {}                                //Para todos los pares 
-let identi;
-let roomIdx;
+let identi;                                     //Variable que nos dice la identidad del usuario
+let roomIdx;                                    //Variblae que permite conocer la sala donde nos encontramos
 let salidaparausuario;
 var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 /*var peer = new Peer(undefined, {                 //Se crea una nueva conexion peer..el parametro "undefined" es para que el id que tome cada par sea automaticamente dado por peer 
@@ -58,7 +57,7 @@ navigator.mediaDevices.getUserMedia({       //Nos permite capturar el video y au
 }).then(stream =>{                          //si se cumple lo anterior, se crea una funcion stream con el video y audio
 
     myVideoStream=stream;                    //Se guarda dentro de la variable el stream antes capturado
-    incluirVideoStream(mivideo,stream);   //Llamo la funcion para añadir mi video 
+    incluirVideoStream(mivideo,stream);     //Llamo la funcion para añadir mi video 
     console.log('my stream:')
     console.log(stream.id);
 
@@ -156,7 +155,7 @@ $('#MensajeDeChat').keydown(function(e){
     if(e.keyCode === 13){
         var usuariochat = document.getElementById('NombreUsuario').value.trim();
         if (usuariochat === '') {
-            alert('ALTO!!','Coloque su nombre par acceder al chat','information');
+            swal('ALTO!!','Coloque su nombre para acceder al chat','info');
             return false;
         }
         if ($('#MensajeDeChat').val() === '')
@@ -273,6 +272,9 @@ const SeteoBotonDesmuteo = () => {
     swal('Pagina desarrollada por', 'Jordy Adrian Ramon Bedoya','success');
   }
  
+
+
+  //EXTRAS
 function Lectura() {
     setInterval( lecturavideo, 3000);
 }

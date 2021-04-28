@@ -1,7 +1,6 @@
 const express= require('express');          //Inicializa el proyecto "express"
 const app =express();                       //Inicializa una "aplicacion" con el proyecto express antes creado
 const cors = require('cors')
-let valor=0;
 const server = require ('http').Server(app);//Inicializa un servidor con HTTP que atendera a la "app" antes creada
 const io = require('socket.io')(server)     // Inicializamos un socket que funcionara especificamente para el server
 const {v4: uuidv4 } = require('uuid');      //Inicializamos el uuid, y lo hacemos con la v4
@@ -28,7 +27,6 @@ app.get('/:room',(req, res) =>{
 })
 //MANEJO DE LOS SOCKETS         --ON es "ESPERAR" -- EMIT es enviar, un ON funciona solo con un EMIT
 io.on('connection',socket =>{                       //Cada que alguien se conecte al servicio , ocurrira esto
-    valor++;
     socket.on('join-room',(roomId,userId)=>{        //Se realizara una conexion "join-room" a la id de la sala,solo si el cliente hace un "emit" que se encuentra cuando inicia la conexion peer,enviando la sala a la que desea pertenecer y el id propio
     socket.join(roomId,userId);                                        //El usuario ingresa a la sala
     socket.broadcast.to(roomId).emit('user-connected',userId); //Una vez que ingresa hara un broadcast a toda la sala,diciendo que ingreso el usuario "userId" , y el usuario que ya estaba dentro de la sala realizara su .ON "user-connected"
@@ -37,7 +35,6 @@ io.on('connection',socket =>{                       //Cada que alguien se conect
         io.to(roomId).emit('MensajeCreado',mensaje);
         })
     socket.on('disconnect', () => {
-    valor--;
     socket.broadcast.to(roomId).emit('user-disconnected', userId);
                 })
     socket.on('salida', (nombre,iden,roomIdx) =>{
