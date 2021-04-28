@@ -272,6 +272,27 @@ const SeteoBotonDesmuteo = () => {
   function Informacion(){
     swal('Pagina desarrollada por', 'Jordy Adrian Ramon Bedoya','success');
   }
+
+  //FUNCIONALIDAD ENVIARMENSAJE MEDIANTE EL CLICK
+  function BotonEnvioSMS(){
+    var usuariochat = document.getElementById('NombreUsuario').value.trim();
+    if (usuariochat === '') {
+        swal('ALTO!!','Coloque su nombre para acceder al chat','info');
+        return false;
+    }
+    if ($('#MensajeDeChat').val() === '')
+      return false;
+    var datos= $('#MensajeDeChat').val();
+    var datosglobales={
+        'usuario': usuariochat,
+        'mensaje': datos
+    }
+    salidaparausuario=usuariochat;
+        socket.emit('mensaje',datosglobales);
+        $('#NombreUsuario').attr("disabled","disabled")
+        $('#MensajeDeChat').val('');
+
+  }  
  
   //FUNCIONALIDAD BOTON CHAT
   function CambiosChat(){
