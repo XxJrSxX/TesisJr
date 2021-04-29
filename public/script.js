@@ -1,5 +1,6 @@
 const socket = io('/');                         //Creacion de la constante socket que actuara consu libreria desde la raiz
 let itera=0;                                    //Varible de ayuda para numerar los videos de cada usuario
+var peeractual;
 let enlaceAmigos = window.location;
 const videoGrid=document.getElementById('video-grid') //Creo un elemento 'video-grid'
 const mivideo=document.createElement('video');        //Creo un elemento 'video'
@@ -61,7 +62,6 @@ navigator.mediaDevices.getUserMedia({       //Nos permite capturar el video y au
     incluirVideoStream(mivideo,stream);     //Llamo la funcion para añadir mi video 
     console.log('my stream:')
     console.log(stream.id);
-
     peer.on('call', call => {                           //Cuando recibe un llamado
         peers[call.peer]=call
         call.answer(stream)                             //Respondemos con el stream propio
@@ -74,8 +74,8 @@ navigator.mediaDevices.getUserMedia({       //Nos permite capturar el video y au
             console.log('Ha recibido el stream de:');   
             console.log(userVideoStream.id);
         incluirVideoStream(video, userVideoStream)     //Mostramos el stream del otro usuario en el cliente que se conecto 
-              
-    
+        peeractual=call.peerConnection;     
+       // stream.getTracks().forEach(track => senders.push(peer.addTrack(track, stream)));
        })
        call.on("close", () => {
         video.remove();
@@ -111,8 +111,9 @@ const conectarNuevoUsuario =(userId,stream)=>{                  //Funcion para c
         call.on('stream', userVideoStream =>{                   //Se ejecutara y se agregara un video con el stream de la otra persona
             console.log('Recibiendo el stream de: ');
             console.log(userVideoStream.id);
-            incluirVideoStream(video1,userVideoStream)           //Añado el stream de la otra persona a mi stream propio
-        })
+           incluirVideoStream(video1,userVideoStream)           //Añado el stream de la otra persona a mi stream propio
+           peeractual=call.peerConnection; 
+          })
         call.on('close',() =>{
             video1.remove();
         })
@@ -325,14 +326,40 @@ swal({
 
 //FUNCION COMPARTIR PANTALLA
 function SharePantalla(){
-  navigator.mediaDevices.getDisplayMedia({       //Nos permite capturar el video y audio, es una promesa, por eso el 
-    cursor: true,                              //then.., solo si tiene audio y video hace lo que dice el ...then
-}).then(stream =>{
-const compartirscrean = stream
-socket.emit('Compartir',ROOM_ID,compartirscrean);
-//incluirVideoStream(video23,compartirscrean);
-});
+navigator.mediaDevices.getDisplayMedia({
+  video:{
+    cursor: true
+  },
+  audio:{
+    echoCancellation:true,
+    noiseSuppression:true
+  }
+  }).then((stream)=>{
+    let videotrack=stream.getVideoTracks()[0];
+    videotrack.onended = function(){
+      DetenerComparticionPantalla();
+    }
+    let sender=peeractual.getSenders().find(function(s){
+      return s.track.kind == videotrack.kind;
+    })
+    
+    sender.replaceTrack(videotrack);
+  }).catch((err)=>{
+    console.log("No se pudo obtener el stream de comparticion");
+  })
 }
+
+function DetenerComparticionPantalla(){
+  console.log("COMPARTICION CANCELADA")
+  let videotrack=myVideoStream.getVideoTracks()[0];
+  var sender=peeractual.getSenders().find(function(s){
+    return s.track.kind == videotrack.kind;
+  })
+  sender.replaceTrack(videotrack);
+}
+//socket.emit('Compartir',ROOM_ID,compartirscrean);
+
+
 socket.on('recibirCompartir', streamCompartir => {
   let video23 =document.createElement('video')
   incluirVideoStream(video23,streamCompartir);
