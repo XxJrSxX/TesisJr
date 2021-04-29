@@ -63,6 +63,7 @@ navigator.mediaDevices.getUserMedia({       //Nos permite capturar el video y au
     console.log(stream.id);
 
     peer.on('call', call => {                           //Cuando recibe un llamado
+        peers[call.peer]=call
         call.answer(stream)                             //Respondemos con el stream propio
         console.log('Envie mi stream');
         const video = document.createElement('video')
@@ -76,6 +77,9 @@ navigator.mediaDevices.getUserMedia({       //Nos permite capturar el video y au
               
     
        })
+       call.on("close", () => {
+        video.remove();
+    })
      })
     socket.on('user-connected',(userId)=>{                  //Una vez que el usuario obtenga el "emit", se ejecuta esto y sellama a la funcion "conectar nuevo usuario"
       console.log("conectando nuevo usuario....");
@@ -140,11 +144,11 @@ $('html').keydown((e)=>{
 })*/
 socket.on('salidausuario',nmbr=>{
   $("ul").append(`<li class="Mensajes"><b>El usuario: ${nmbr}</b><br/>Ha salido de la conferencia</li>`);
-  setTimeout(function ()
+  /*setTimeout(function ()
     {
      location.reload();
     },5000)     
-  
+  */
 })
 socket.on('MensajeCreado',msg =>{
     console.log('Mensaje desde el servidor:', msg);
@@ -256,10 +260,10 @@ const SeteoBotonDesmuteo = () => {
     salidaparausuario=jl;
   }
     socket.emit('salida',salidaparausuario,identi,roomIdx);
-    setTimeout(function ()
+    /*setTimeout(function ()
     {
       socket.disconnect();
-    },2000)     
+    },2000)     */
     const ventana=window.self;
     ventana.opener=window.self;
     ventana.close();
@@ -310,7 +314,7 @@ var enlace=document.getElementById("enlace")
 swal({
   title: "Invita a mas amigos!!",
   text: "LINK:  "+enlaceAmigos,
-  buttons:["Cancelar","OK"]
+  buttons:["Cancelar","Copiar!!"]
   
     }).then(function(result){
         if(result==true){
