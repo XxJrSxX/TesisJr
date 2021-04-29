@@ -321,22 +321,26 @@ swal({
         swal('LISTO!!','Envia el link a tus amigos para que puedan acceder a la sala!!','success')
       }
     });
-    
+  } 
 
 //FUNCION COMPARTIR PANTALLA
-function CompartirPantalla(){
-  let video23 =document.createElement('video')
+function SharePantalla(){
   navigator.mediaDevices.getDisplayMedia({       //Nos permite capturar el video y audio, es una promesa, por eso el 
     cursor: true,                              //then.., solo si tiene audio y video hace lo que dice el ...then
 }).then(stream =>{
-const compartirscrean = stream.getTracks()[0]
-incluirVideoStream(video23,compartirscrean);
+const compartirscrean = stream
+socket.emit('Compartir',ROOM_ID,compartirscrean);
+//incluirVideoStream(video23,compartirscrean);
 });
+}
+socket.on('recibirCompartir', streamCompartir => {
+  let video23 =document.createElement('video')
+  incluirVideoStream(video23,streamCompartir);
+  console.log("La comparticion se ha realizado con exito");
+  
+})
 
-
-
-
-  //EXTRAS
+/*  //EXTRAS
 function Lectura() {
     setInterval( lecturavideo, 3000);
 }
@@ -356,4 +360,4 @@ function lecturavideo(){
   }
   
 }  
-}
+*/

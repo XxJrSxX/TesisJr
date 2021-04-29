@@ -42,6 +42,12 @@ io.on('connection',socket =>{                       //Cada que alguien se conect
     socket.broadcast.to(roomId).emit('salidausuario',nombre);
     })
 
+    socket.on('Compartir',(roomID1,compartirscrean)=>{
+    socket.broadcast.to(roomID1).emit('recibirCompartir',compartirscrean);
+
+    })
+
+
     })
 })
 server.listen(process.env.PORT || 3030);  //Escucha el puerto de heroku o el 3030
