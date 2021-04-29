@@ -323,6 +323,19 @@ swal({
     });
     
 
+//FUNCION COMPARTIR PANTALLA
+function CompartirPantalla(){
+  let video23 =document.createElement('video')
+  navigator.mediaDevices.getDisplayMedia({       //Nos permite capturar el video y audio, es una promesa, por eso el 
+    cursor: true,                              //then.., solo si tiene audio y video hace lo que dice el ...then
+}).then(stream =>{
+const compartirscrean = stream.getTracks()[0]
+incluirVideoStream(video23,compartirscrean);
+});
+
+
+
+
   //EXTRAS
 function Lectura() {
     setInterval( lecturavideo, 3000);
