@@ -358,14 +358,30 @@ function DetenerComparticionPantalla(){
   sender.replaceTrack(videotrack);
 }
 //socket.emit('Compartir',ROOM_ID,compartirscrean);
-
-
 socket.on('recibirCompartir', streamCompartir => {
   let video23 =document.createElement('video')
   incluirVideoStream(video23,streamCompartir);
   console.log("La comparticion se ha realizado con exito");
   
 })
+
+//FUNCION LEVANTAR MANO
+function LevantarMano(){
+  var usuariochat = document.getElementById('NombreUsuario').value.trim();
+  if (usuariochat === '') {
+      swal('ALTO!!','Coloque su nombre para acceder al chat','info');
+      return false;
+  }
+  var datos= "&#9995;";
+  var datosglobales={
+      'usuario': usuariochat,
+      'mensaje': datos
+  }
+  salidaparausuario=usuariochat;
+      socket.emit('mensaje',datosglobales);
+      $('#NombreUsuario').attr("disabled","disabled")
+      $('#MensajeDeChat').val('');
+}
 
 /*  //EXTRAS
 function Lectura() {
