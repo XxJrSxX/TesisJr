@@ -261,10 +261,10 @@ const SeteoBotonDesmuteo = () => {
     salidaparausuario=jl;
   }
     socket.emit('salida',salidaparausuario,identi,roomIdx);
-    /*setTimeout(function ()
+    setTimeout(function ()
     {
       socket.disconnect();
-    },2000)     */
+    },2000)
     const ventana=window.self;
     ventana.opener=window.self;
     ventana.close();
