@@ -1,12 +1,12 @@
 const socket = io('/');                         //Creacion de la constante socket que actuara consu libreria desde la raiz
 let itera=0;                                    //Varible de ayuda para numerar los videos de cada usuario
-var peeractual;
 let enlaceAmigos = window.location;
 const videoGrid=document.getElementById('video-grid') //Creo un elemento 'video-grid'
 const mivideo=document.createElement('video');        //Creo un elemento 'video'
 mivideo.setAttribute("id",itera);                     //Seteo un "id" y su valor a mi video para conocer que valor tiene
 mivideo.muted=true;                             //Muteo el elemento para no escuchar mi propia voz
 const peers = {}                                //Para todos los pares 
+var peeractual = [];
 let identi;                                     //Variable que nos dice la identidad del usuario
 let roomIdx;                                    //Variblae que permite conocer la sala donde nos encontramos
 let salidaparausuario;
@@ -74,7 +74,8 @@ navigator.mediaDevices.getUserMedia({       //Nos permite capturar el video y au
             console.log('Ha recibido el stream de:');   
             console.log(userVideoStream.id);
         incluirVideoStream(video, userVideoStream)     //Mostramos el stream del otro usuario en el cliente que se conecto 
-        peeractual=call.peerConnection;     
+        //peeractual = call.peerConnection;
+        peeractual.push(call.peerConnection);     
        // stream.getTracks().forEach(track => senders.push(peer.addTrack(track, stream)));
        })
        call.on("close", () => {
@@ -112,7 +113,9 @@ const conectarNuevoUsuario =(userId,stream)=>{                  //Funcion para c
             console.log('Recibiendo el stream de: ');
             console.log(userVideoStream.id);
            incluirVideoStream(video1,userVideoStream)           //Añado el stream de la otra persona a mi stream propio
-           peeractual=call.peerConnection; 
+           //peeractual=call.peerConnection; 
+           peeractual.push(call.peerConnection); 
+           console.log(peeractual)
           })
         call.on('close',() =>{
             video1.remove();
@@ -339,11 +342,14 @@ navigator.mediaDevices.getDisplayMedia({
     videotrack.onended = function(){
       DetenerComparticionPantalla();
     }
-    let sender=peeractual.getSenders().find(function(s){
-      return s.track.kind == videotrack.kind;
-    })
-    
-    sender.replaceTrack(videotrack);
+    for (let x=0;x<peeractual.length;x++){
+           
+      let sender = peeractual[x].getSenders().find(function(s){
+         return s.track.kind == videotrack.kind;
+       })
+       
+       sender.replaceTrack(videotrack);
+  }
   }).catch((err)=>{
     console.log("No se pudo obtener el stream de comparticion");
   })
@@ -352,10 +358,12 @@ navigator.mediaDevices.getDisplayMedia({
 function DetenerComparticionPantalla(){
   console.log("COMPARTICION CANCELADA")
   let videotrack=myVideoStream.getVideoTracks()[0];
-  var sender=peeractual.getSenders().find(function(s){
-    return s.track.kind == videotrack.kind;
-  })
-  sender.replaceTrack(videotrack);
+  for(let x=0;x<peeractual.length;x++){
+    var sender=peeractual[x].getSenders().find(function(s){
+      return s.track.kind == videotrack.kind;
+    })
+    sender.replaceTrack(videotrack);
+  }
 }
 //socket.emit('Compartir',ROOM_ID,compartirscrean);
 socket.on('recibirCompartir', streamCompartir => {
