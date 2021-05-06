@@ -4,6 +4,7 @@ let enlaceAmigos = window.location;
 const videoGrid=document.getElementById('video-grid') //Creo un elemento 'video-grid'
 const mivideo=document.createElement('video');        //Creo un elemento 'video'
 mivideo.setAttribute("id",itera);                     //Seteo un "id" y su valor a mi video para conocer que valor tiene
+mivideo.controls=true
 mivideo.muted=true;                             //Muteo el elemento para no escuchar mi propia voz
 const peers = {}                                //Para todos los pares 
 var peeractual = [];
@@ -70,6 +71,7 @@ navigator.mediaDevices.getUserMedia({       //Nos permite capturar el video y au
         itera++;
         console.log('mitad',itera);
         video.setAttribute("id", itera);
+        video.controls=true;
         call.on('stream', userVideoStream => {          
             console.log('Ha recibido el stream de:');   
             console.log(userVideoStream.id);
@@ -108,6 +110,7 @@ const conectarNuevoUsuario =(userId,stream)=>{                  //Funcion para c
         let video1 =document.createElement('video')            //Creo un nuevo elemento video para alojar el stream
         itera++;
         video1.setAttribute("id",itera);
+        video1.controls=true;
         console.log('final',itera);
         call.on('stream', userVideoStream =>{                   //Se ejecutara y se agregara un video con el stream de la otra persona
             console.log('Recibiendo el stream de: ');
@@ -368,6 +371,7 @@ function DetenerComparticionPantalla(){
 //socket.emit('Compartir',ROOM_ID,compartirscrean);
 socket.on('recibirCompartir', streamCompartir => {
   let video23 =document.createElement('video')
+  video23.controls=true;
   incluirVideoStream(video23,streamCompartir);
   console.log("La comparticion se ha realizado con exito");
   

@@ -9,9 +9,10 @@ body{
 
 }
 video{
-    height: 225px;
-    width: 250px;
+    height: 240px;
+    width: 265px;
     object-fit: cover;
+     
 }
 .Principal{
     height: 100vh;
