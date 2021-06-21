@@ -1,16 +1,28 @@
+//const { default: Swal } = require("sweetalert2");
+
 const socket = io('/');                         //Creacion de la constante socket que actuara consu libreria desde la raiz
 let itera=0;                                    //Varible de ayuda para numerar los videos de cada usuario
+//let nombre='jordy'
+let width=640;
+let height=480;
 let enlaceAmigos = window.location;
 const videoGrid=document.getElementById('video-grid') //Creo un elemento 'video-grid'
+
 const mivideo=document.createElement('video');        //Creo un elemento 'video'
 mivideo.setAttribute("id",itera);                     //Seteo un "id" y su valor a mi video para conocer que valor tiene
-mivideo.controls=true
+mivideo.setAttribute("width",width);
+mivideo.setAttribute("height",height);
+//mivideo.controls=true
 mivideo.muted=true;                             //Muteo el elemento para no escuchar mi propia voz
+//mivideo.append(nombre);
+$("mivideo").append(`<head>Jordy</head>`);
 const peers = {}                                //Para todos los pares 
 var peeractual = [];
 let identi;                                     //Variable que nos dice la identidad del usuario
 let roomIdx;                                    //Variblae que permite conocer la sala donde nos encontramos
 let salidaparausuario;
+bienvenida();
+
 var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 /*var peer = new Peer(undefined, {                 //Se crea una nueva conexion peer..el parametro "undefined" es para que el id que tome cada par sea automaticamente dado por peer 
     path: '/peerjs',                            //Se especifica el path en donde estara la conexion peer
@@ -61,6 +73,7 @@ navigator.mediaDevices.getUserMedia({       //Nos permite capturar el video y au
 
     myVideoStream=stream;                    //Se guarda dentro de la variable el stream antes capturado
     incluirVideoStream(mivideo,stream);     //Llamo la funcion para añadir mi video 
+    relacionAspecto();
     console.log('my stream:')
     console.log(stream.id);
     peer.on('call', call => {                           //Cuando recibe un llamado
@@ -71,7 +84,7 @@ navigator.mediaDevices.getUserMedia({       //Nos permite capturar el video y au
         itera++;
         console.log('mitad',itera);
         video.setAttribute("id", itera);
-        video.controls=true;
+        //video.controls=true;
         call.on('stream', userVideoStream => {          
             console.log('Ha recibido el stream de:');   
             console.log(userVideoStream.id);
@@ -110,7 +123,7 @@ const conectarNuevoUsuario =(userId,stream)=>{                  //Funcion para c
         let video1 =document.createElement('video')            //Creo un nuevo elemento video para alojar el stream
         itera++;
         video1.setAttribute("id",itera);
-        video1.controls=true;
+       // video1.controls=true;
         console.log('final',itera);
         call.on('stream', userVideoStream =>{                   //Se ejecutara y se agregara un video con el stream de la otra persona
             console.log('Recibiendo el stream de: ');
@@ -157,9 +170,9 @@ socket.on('salidausuario',nmbr=>{
     },5000)     
   */
 })
-socket.on('MensajeCreado',msg =>{
+socket.on('MensajeCreado',(msg,horario) =>{
     console.log('Mensaje desde el servidor:', msg);
-    $("ul").append(`<li class="Mensajes"><b>${msg.usuario}</b><br/>${msg.mensaje}</li>`);
+    $("ul").append(`<li class="Mensajes"><b>${msg.usuario}</b><br/>${msg.mensaje}&nbsp;&nbsp;&nbsp;&nbsp;${horario}</li>`);
     BotonBajada()
 })
 
@@ -167,7 +180,7 @@ $('#MensajeDeChat').keydown(function(e){
     if(e.keyCode === 13){
         var usuariochat = document.getElementById('NombreUsuario').value.trim();
         if (usuariochat === '') {
-            swal('ALTO!!','Coloque su nombre para acceder al chat','info');
+            Swal.fire('ALTO!!','Coloque su nombre para acceder al chat','info');
             return false;
         }
         if ($('#MensajeDeChat').val() === '')
@@ -260,35 +273,63 @@ const SeteoBotonDesmuteo = () => {
     var jl1=$('#MensajeDeChat').val();
     console.log(jl);
     if ( jl === '') {
-      swal('ALTO!!','Porfavor Introduzca su nombre de usuario.. ','error');
+      Swal.fire('ALTO!!','Porfavor Introduzca su nombre de usuario.. ','error');
       return false;
   }
   if (jl1 ===''){
     salidaparausuario=jl;
   }
     socket.emit('salida',salidaparausuario,identi,roomIdx);
-    setTimeout(function ()
-    {
-      socket.disconnect();
-    },2000)
-    const ventana=window.self;
-    ventana.opener=window.self;
-    ventana.close();
-    swal('Sesion Finalizada','PorFavor cierre la pestaña de su navegador ','success');
+    Swal.fire({
+    icon:'question',
+    title:'Esta seguro de abandonar la sesion?',
+    showCancelButton: true,
+    confirmButtonText: 'SI!!',
+    confirmButtonColor: '#32CD32',
+    cancelButtonText: 'Cancelar',
+    cancelButtonColor:'#FFA07A',
+    }).then(function(result){
+      if(result.isConfirmed){
+        setTimeout(function ()
+        {
+          socket.disconnect();
+        },2000)
+        Swal.fire({
+          icon:'success',
+          title:'Ud ha salido de la Sala, porfavor cierre su pestaña',
+          confirmButtonText: 'Ok',
+          confirmButtonColor: '#32CD32',
+          showCancelButton: false
+        })
+        const ventana=window.self;
+        ventana.opener=window.self;
+        ventana.close();
+    }
+   
+  });
+    
+    
+    
     
   }
 
   //FUNCIONALIDAD BOTON INFORMACION
 
   function Informacion(){
-    swal('Pagina desarrollada por', 'Jordy Adrian Ramon Bedoya','success');
+    Swal.fire({
+      title:'Aplicacion Desarrollada por: '+'👨‍💻', 
+      text:'Jordy Adrian Ramon Bedoya',
+      showCancelButton: false,
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#32CD32',});
   }
 
   //FUNCIONALIDAD ENVIARMENSAJE MEDIANTE EL CLICK
   function BotonEnvioSMS(){
+    
     var usuariochat = document.getElementById('NombreUsuario').value.trim();
     if (usuariochat === '') {
-        swal('ALTO!!','Coloque su nombre para acceder al chat','info');
+      Swal.fire('ALTO!!','Coloque su nombre para acceder al chat','info');
         return false;
     }
     if ($('#MensajeDeChat').val() === '')
@@ -307,7 +348,7 @@ const SeteoBotonDesmuteo = () => {
  
   //FUNCIONALIDAD BOTON CHAT
   function CambiosChat(){
-   
+   console.log('holaasd');
   }
 
 
@@ -315,17 +356,27 @@ const SeteoBotonDesmuteo = () => {
 function InvitarAmigos(){
 document.getElementById("enlace").value=window.location.href
 var enlace=document.getElementById("enlace")
-  enlace.select();
-  enlace.setSelectionRange(0,99999);
-  document.execCommand('copy');
-swal({
-  title: "Invita a mas amigos!!",
+  Swal.fire({
+  title: "Invita a mas amigos!!"+'&#128525;',
   text: "LINK:  "+enlaceAmigos,
-  buttons:["Cancelar","Copiar!!"]
-  
+  showCancelButton: true,
+  confirmButtonText: 'COPIAR!!'+'&#x1f919;',
+  confirmButtonColor: '#32CD32',
+  cancelButtonText: 'Cancelar'+'&#128528',
+  cancelButtonColor:'#FFA07A',
+  showLoaderOnConfirm: false,
+  allowOutsideClick: true,
+  allowEscapeKey: true
     }).then(function(result){
-        if(result==true){
-        swal('LISTO!!','Envia el link a tus amigos para que puedan acceder a la sala!!','success')
+        if(result.isConfirmed){
+          enlace.select();
+          enlace.setSelectionRange(0,99999);
+          document.execCommand('copy');
+          Swal.fire({
+            title:'LISTO!!'+'&#x1f60e',
+            text:'Envia el link a tus amigos para que puedan acceder a la sala!!',
+            confirmButtonText: '&#x1f44c',
+            confirmButtonColor: '#32CD32'})
       }
     });
   } 
@@ -371,7 +422,7 @@ function DetenerComparticionPantalla(){
 //socket.emit('Compartir',ROOM_ID,compartirscrean);
 socket.on('recibirCompartir', streamCompartir => {
   let video23 =document.createElement('video')
-  video23.controls=true;
+ // video23.controls=true;
   incluirVideoStream(video23,streamCompartir);
   console.log("La comparticion se ha realizado con exito");
   
@@ -381,7 +432,7 @@ socket.on('recibirCompartir', streamCompartir => {
 function LevantarMano(){
   var usuariochat = document.getElementById('NombreUsuario').value.trim();
   if (usuariochat === '') {
-      swal('ALTO!!','Coloque su nombre para acceder al chat','info');
+      Swal.fire('ALTO!!','Coloque su nombre para acceder al chat','info');
       return false;
   }
   var datos= "&#9995;";
@@ -395,6 +446,95 @@ function LevantarMano(){
       $('#MensajeDeChat').val('');
 }
 
+//FUNCION PARA BIENVENIDA
+function bienvenida(){
+  Swal.fire({
+    title: 'Bienvenido a la sala!!'+'&#x1f64c',
+    text:  'Porfavor Introduzca su nombre y apellido',
+    input: 'text',
+    inputAttributes: {
+      autocapitalize: 'on'
+    },
+    showCancelButton: false,
+    confirmButtonText: 'ENTRAR!!'+'&#x1f6aa',
+    confirmButtonColor: '#32CD32',
+    showLoaderOnConfirm: false,
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    inputValidator: (value) => {
+      if (!value) {
+        return 'Necesita ingresar sus datos!!'+'&#x1f928'
+      }
+      else{
+        $('#NombreUsuario').val(value);
+        $('#NombreUsuario').attr("disabled","disabled")
+      }
+    }
+  })/*.then((result) => {
+    if (result.isConfirmed) {
+        if(!result.value ){
+            return 'You need to write something!'
+            //bienvenida();
+        }
+        else{
+        
+          
+        }
+    }
+  })*/
+  
+}
+//FUNCION PARA RELACION ASPECTO.
+function relacionAspecto(){
+  setInterval(aspectototal,5000);
+}
+function aspectototal(){
+  var numeroVideo=$('video').length;
+    console.log('dasd'+numeroVideo);
+
+    switch(numeroVideo){
+      case 1:
+        console.log("Solo hay un participante")
+        $('video').attr("height",540)
+        $('video').attr("width",730)
+
+        break;
+      case 2:
+        console.log("Solo hay dos participantes")
+        $('video').attr("height",'auto')
+        $('video').attr("width",530)
+        break;
+      case 3:
+        console.log("Solo tres participantes")
+        $('video').attr("height",275)
+        $('video').attr("width",363)
+        
+        break;
+      case 4:
+        console.log("Solo cuatro participantes")
+        $('video').attr("height",275)
+        $('video').attr("width",363)
+        break;
+      case 5:
+          $('video').attr("height",200)
+          $('video').attr("width",200)
+        break;
+
+        case 6:
+          $('video').attr("height",200)
+          $('video').attr("width",200)
+        break;
+        case 7:
+          $('video').attr("height",200)
+          $('video').attr("width",200)
+        break;
+
+
+
+
+
+    }
+}
 /*  //EXTRAS
 function Lectura() {
     setInterval( lecturavideo, 3000);

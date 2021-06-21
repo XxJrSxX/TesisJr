@@ -30,9 +30,15 @@ io.on('connection',socket =>{                       //Cada que alguien se conect
     socket.on('join-room',(roomId,userId)=>{        //Se realizara una conexion "join-room" a la id de la sala,solo si el cliente hace un "emit" que se encuentra cuando inicia la conexion peer,enviando la sala a la que desea pertenecer y el id propio
     socket.join(roomId,userId);                                        //El usuario ingresa a la sala
     socket.broadcast.to(roomId).emit('user-connected',userId); //Una vez que ingresa hara un broadcast a toda la sala,diciendo que ingreso el usuario "userId" , y el usuario que ya estaba dentro de la sala realizara su .ON "user-connected"
+    
     console.log("Nuevo usuario: "+userId);  
+    
     socket.on('mensaje',mensaje =>{
-        io.to(roomId).emit('MensajeCreado',mensaje);
+        var d = new Date();
+        var uno1=d.getHours();
+        var dos2=d.getMinutes();
+        var horatotal=uno1+':'+dos2;
+        io.to(roomId).emit('MensajeCreado',mensaje,horatotal);
         })
     socket.on('disconnect', () => {
     socket.broadcast.to(roomId).emit('user-disconnected', userId);

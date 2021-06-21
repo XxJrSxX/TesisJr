@@ -6,14 +6,9 @@ body{
 #video-grid{
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+}
 
-}
-video{
-    height: 240px;
-    width: 265px;
-    object-fit: cover;
-     
-}
 .Principal{
     height: 100vh;
     display: flex;
@@ -66,7 +61,6 @@ video{
 .fa-door-open{
     color: #d04e4e;
 }
-
 
 .Derecha{
     flex: 0.2;
