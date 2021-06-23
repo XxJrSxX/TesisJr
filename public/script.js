@@ -494,24 +494,24 @@ function aspectototal(){
 
     switch(numeroVideo){
       case 1:
-        console.log("Solo hay un participante")
+      //  console.log("Solo hay un participante")
         $('video').attr("height",540)
         $('video').attr("width",730)
 
         break;
       case 2:
-        console.log("Solo hay dos participantes")
+       // console.log("Solo hay dos participantes")
         $('video').attr("height",'auto')
         $('video').attr("width",530)
         break;
       case 3:
-        console.log("Solo tres participantes")
+       // console.log("Solo tres participantes")
         $('video').attr("height",275)
         $('video').attr("width",363)
         
         break;
       case 4:
-        console.log("Solo cuatro participantes")
+    
         $('video').attr("height",275)
         $('video').attr("width",363)
         break;
