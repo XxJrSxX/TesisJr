@@ -16,7 +16,6 @@ mivideo.setAttribute("ondblclick","TenerPantallaGigante(this)");
 //mivideo.controls=true
 mivideo.muted=true;                             //Muteo el elemento para no escuchar mi propia voz
 //mivideo.append(nombre);
-$("mivideo").append(`<head>Jordy</head>`);
 const peers = {}                                //Para todos los pares 
 var peeractual = [];
 let identi;                                     //Variable que nos dice la identidad del usuario
@@ -74,6 +73,7 @@ navigator.mediaDevices.getUserMedia({       //Nos permite capturar el video y au
 
     myVideoStream=stream;                    //Se guarda dentro de la variable el stream antes capturado
     incluirVideoStream(mivideo,stream);     //Llamo la funcion para añadir mi video 
+    MuteoDesmuteo();
     relacionAspecto();
     console.log('my stream:')
     console.log(stream.id);
