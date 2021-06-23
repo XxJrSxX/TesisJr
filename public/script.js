@@ -12,6 +12,7 @@ const mivideo=document.createElement('video');        //Creo un elemento 'video'
 mivideo.setAttribute("id",itera);                     //Seteo un "id" y su valor a mi video para conocer que valor tiene
 mivideo.setAttribute("width",width);
 mivideo.setAttribute("height",height);
+mivideo.setAttribute("ondblclick","TenerPantallaGigante(this)");
 //mivideo.controls=true
 mivideo.muted=true;                             //Muteo el elemento para no escuchar mi propia voz
 //mivideo.append(nombre);
@@ -84,7 +85,7 @@ navigator.mediaDevices.getUserMedia({       //Nos permite capturar el video y au
         itera++;
         console.log('mitad',itera);
         video.setAttribute("id", itera);
-        //video.controls=true;
+        video.setAttribute("ondblclick","TenerPantallaGigante(this)");
         call.on('stream', userVideoStream => {          
             console.log('Ha recibido el stream de:');   
             console.log(userVideoStream.id);
@@ -123,6 +124,7 @@ const conectarNuevoUsuario =(userId,stream)=>{                  //Funcion para c
         let video1 =document.createElement('video')            //Creo un nuevo elemento video para alojar el stream
         itera++;
         video1.setAttribute("id",itera);
+        video1.setAttribute("ondblclick","TenerPantallaGigante(this)");
        // video1.controls=true;
         console.log('final',itera);
         call.on('stream', userVideoStream =>{                   //Se ejecutara y se agregara un video con el stream de la otra persona
@@ -186,9 +188,10 @@ $('#MensajeDeChat').keydown(function(e){
         if ($('#MensajeDeChat').val() === '')
           return false;
         var datos= $('#MensajeDeChat').val();
+        var resultado=datos.slice(0, 20);
         var datosglobales={
             'usuario': usuariochat,
-            'mensaje': datos
+            'mensaje': resultado
         }
         salidaparausuario=usuariochat;
             socket.emit('mensaje',datosglobales);
@@ -334,10 +337,12 @@ const SeteoBotonDesmuteo = () => {
     }
     if ($('#MensajeDeChat').val() === '')
       return false;
+
     var datos= $('#MensajeDeChat').val();
+    var resultado=datos.slice(0, 20);
     var datosglobales={
         'usuario': usuariochat,
-        'mensaje': datos
+        'mensaje': resultado
     }
     salidaparausuario=usuariochat;
         socket.emit('mensaje',datosglobales);
@@ -490,7 +495,6 @@ function relacionAspecto(){
 }
 function aspectototal(){
   var numeroVideo=$('video').length;
-    console.log('dasd'+numeroVideo);
 
     switch(numeroVideo){
       case 1:
@@ -535,6 +539,20 @@ function aspectototal(){
 
     }
 }
+
+//FUNCION PARA AGRANDAR CUALQUIER PANTALLA
+function TenerPantallaGigante(elemento){
+  if(elemento.requestFullscreen) {
+      elemento.requestFullscreen();
+    } else if(mivideo.mozRequestFullScreen) {
+      elemento.mozRequestFullScreen();
+    } else if(mivideo.webkitRequestFullscreen) {
+      elemento.webkitRequestFullscreen();
+    } else if(mivideo.msRequestFullscreen) {
+      elemento.msRequestFullscreen();
+    }
+}
+
 /*  //EXTRAS
 function Lectura() {
     setInterval( lecturavideo, 3000);
