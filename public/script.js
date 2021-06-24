@@ -64,7 +64,7 @@ peer.on('open',id =>{                       //Cuando se ejecuta un cliente se ab
     identi=id;
     roomIdx=ROOM_ID;
 })
-
+//hola
 let myVideoStream                           //Varible global
 navigator.mediaDevices.getUserMedia({       //Nos permite capturar el video y audio, es una promesa, por eso el 
     video: true,                            //then.., solo si tiene audio y video hace lo que dice el ...then
